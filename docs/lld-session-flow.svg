@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 580" font-family="Inter, -apple-system, sans-serif">
+  <defs>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="108%">
+      <feDropShadow dx="0" dy="1" stdDeviation="3" flood-color="#2d2a24" flood-opacity="0.06"/>
+    </filter>
+    <marker id="arrowDark" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#5a5549"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#4285F4"/>
+    </marker>
+    <marker id="arrowOrange" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#e8710a"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#2e7d32"/>
+    </marker>
+    <marker id="arrowTeal" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#5cc4b8"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="580" rx="8" fill="#faf9f5"/>
+  <text x="500" y="30" text-anchor="middle" font-size="16" font-weight="700" fill="#2d2a24">LLD 1 — Real-Time Session Data Flow</text>
+  <text x="500" y="48" text-anchor="middle" font-size="10" fill="#9b9488">Bidirectional streaming: client ↔ server ↔ Gemini Live API</text>
+
+  <!-- ═══ SWIMLANE HEADERS ═══ -->
+  <rect x="20" y="65" width="140" height="24" rx="4" fill="#5a5549"/>
+  <text x="90" y="82" text-anchor="middle" font-size="10" font-weight="600" fill="white">Client (Browser)</text>
+
+  <rect x="200" y="65" width="140" height="24" rx="4" fill="#4285F4"/>
+  <text x="270" y="82" text-anchor="middle" font-size="10" font-weight="600" fill="white">FastAPI WS</text>
+
+  <rect x="380" y="65" width="140" height="24" rx="4" fill="#2e7d32"/>
+  <text x="450" y="82" text-anchor="middle" font-size="10" font-weight="600" fill="white">ADK Runner</text>
+
+  <rect x="560" y="65" width="170" height="24" rx="4" fill="#e8710a"/>
+  <text x="645" y="82" text-anchor="middle" font-size="10" font-weight="600" fill="white">Gemini Live API</text>
+
+  <rect x="770" y="65" width="170" height="24" rx="4" fill="#5cc4b8"/>
+  <text x="855" y="82" text-anchor="middle" font-size="10" font-weight="600" fill="white">External Services</text>
+
+  <!-- Swimlane lines -->
+  <line x1="90" y1="89" x2="90" y2="560" stroke="#d0d0d0" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="270" y1="89" x2="270" y2="560" stroke="#d0d0d0" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="450" y1="89" x2="450" y2="560" stroke="#d0d0d0" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="645" y1="89" x2="645" y2="560" stroke="#d0d0d0" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="855" y1="89" x2="855" y2="560" stroke="#d0d0d0" stroke-width="1" stroke-dasharray="3,3"/>
+
+  <!-- ═══ STEP 1: CONNECT ═══ -->
+  <text x="30" y="120" font-size="9" font-weight="600" fill="#2d2a24">1. Connect</text>
+  <rect x="40" y="128" width="100" height="24" rx="4" fill="#f0f4f8" stroke="#d0d8e0"/>
+  <text x="90" y="144" text-anchor="middle" font-size="8" fill="#5a5549">WSS connect</text>
+  <line x1="140" y1="140" x2="220" y2="140" stroke="#4285F4" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+  <text x="180" y="135" text-anchor="middle" font-size="7" fill="#9b9488">/ws/{uid}/{sid}</text>
+
+  <rect x="220" y="128" width="100" height="24" rx="4" fill="#f0f4f8" stroke="#d0d8e0"/>
+  <text x="270" y="144" text-anchor="middle" font-size="8" fill="#5a5549">Load SOP</text>
+  <line x1="320" y1="140" x2="400" y2="140" stroke="#2e7d32" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+  <text x="360" y="135" text-anchor="middle" font-size="7" fill="#9b9488">create_agent(domain)</text>
+
+  <rect x="400" y="128" width="100" height="24" rx="4" fill="#e8f5e9" stroke="#a5d6a7"/>
+  <text x="450" y="144" text-anchor="middle" font-size="8" fill="#2e7d32">Init Runner</text>
+  <line x1="500" y1="140" x2="595" y2="140" stroke="#e8710a" stroke-width="1.5" marker-end="url(#arrowOrange)"/>
+  <text x="548" y="135" text-anchor="middle" font-size="7" fill="#9b9488">bidiGenerateContent</text>
+
+  <rect x="595" y="128" width="100" height="24" rx="4" fill="#fff3e0" stroke="#ffcc80"/>
+  <text x="645" y="144" text-anchor="middle" font-size="8" fill="#e8710a">Session open</text>
+
+  <!-- ═══ STEP 2: AUDIO INPUT ═══ -->
+  <text x="30" y="185" font-size="9" font-weight="600" fill="#2d2a24">2. Audio input</text>
+  <rect x="40" y="193" width="100" height="24" rx="4" fill="#fce4ec" stroke="#f48fb1"/>
+  <text x="90" y="209" text-anchor="middle" font-size="8" fill="#c62828">PCM chunks</text>
+  <line x1="140" y1="205" x2="220" y2="205" stroke="#4285F4" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+  <text x="180" y="200" text-anchor="middle" font-size="7" fill="#9b9488">binary WS frame</text>
+
+  <rect x="220" y="193" width="100" height="24" rx="4" fill="#f0f4f8" stroke="#d0d8e0"/>
+  <text x="270" y="209" text-anchor="middle" font-size="8" fill="#5a5549">base64 encode</text>
+  <line x1="320" y1="205" x2="400" y2="205" stroke="#2e7d32" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+
+  <rect x="400" y="193" width="100" height="24" rx="4" fill="#e8f5e9" stroke="#a5d6a7"/>
+  <text x="450" y="209" text-anchor="middle" font-size="8" fill="#2e7d32">LiveRequestQueue</text>
+  <line x1="500" y1="205" x2="595" y2="205" stroke="#e8710a" stroke-width="1.5" marker-end="url(#arrowOrange)"/>
+  <text x="548" y="200" text-anchor="middle" font-size="7" fill="#9b9488">audio blob</text>
+
+  <rect x="595" y="193" width="100" height="24" rx="4" fill="#fff3e0" stroke="#ffcc80"/>
+  <text x="645" y="209" text-anchor="middle" font-size="8" fill="#e8710a">Transcribe + reason</text>
+
+  <!-- ═══ STEP 3: CAMERA INPUT ═══ -->
+  <text x="30" y="250" font-size="9" font-weight="600" fill="#2d2a24">3. Camera frame</text>
+  <rect x="40" y="258" width="100" height="24" rx="4" fill="#e8eaf6" stroke="#9fa8da"/>
+  <text x="90" y="274" text-anchor="middle" font-size="8" fill="#283593">JPEG 768x768</text>
+  <line x1="140" y1="270" x2="220" y2="270" stroke="#4285F4" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+  <text x="180" y="265" text-anchor="middle" font-size="7" fill="#9b9488">base64 WS frame</text>
+
+  <rect x="220" y="258" width="100" height="24" rx="4" fill="#f0f4f8" stroke="#d0d8e0"/>
+  <text x="270" y="274" text-anchor="middle" font-size="8" fill="#5a5549">Route to queue</text>
+  <line x1="320" y1="270" x2="400" y2="270" stroke="#2e7d32" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+
+  <rect x="400" y="258" width="100" height="24" rx="4" fill="#e8f5e9" stroke="#a5d6a7"/>
+  <text x="450" y="274" text-anchor="middle" font-size="8" fill="#2e7d32">LiveRequestQueue</text>
+  <line x1="500" y1="270" x2="595" y2="270" stroke="#e8710a" stroke-width="1.5" marker-end="url(#arrowOrange)"/>
+  <text x="548" y="265" text-anchor="middle" font-size="7" fill="#9b9488">inline_data image</text>
+
+  <rect x="595" y="258" width="100" height="24" rx="4" fill="#fff3e0" stroke="#ffcc80"/>
+  <text x="645" y="274" text-anchor="middle" font-size="8" fill="#e8710a">Vision analysis</text>
+
+  <!-- ═══ STEP 4: TOOL CALL ═══ -->
+  <text x="30" y="315" font-size="9" font-weight="600" fill="#2d2a24">4. Tool call (search)</text>
+
+  <rect x="595" y="323" width="100" height="24" rx="4" fill="#fff3e0" stroke="#ffcc80"/>
+  <text x="645" y="339" text-anchor="middle" font-size="8" fill="#e8710a">google_search</text>
+  <line x1="695" y1="335" x2="805" y2="335" stroke="#5cc4b8" stroke-width="1.5" marker-end="url(#arrowTeal)"/>
+  <text x="750" y="330" text-anchor="middle" font-size="7" fill="#9b9488">tool invocation</text>
+
+  <rect x="805" y="323" width="100" height="24" rx="4" fill="#e0f2f1" stroke="#80cbc4"/>
+  <text x="855" y="339" text-anchor="middle" font-size="8" fill="#00695c">Google Search</text>
+
+  <line x1="855" y1="347" x2="855" y2="365" stroke="#5cc4b8" stroke-width="1" stroke-dasharray="2,2"/>
+  <rect x="805" y="365" width="100" height="24" rx="4" fill="#e0f2f1" stroke="#80cbc4"/>
+  <text x="855" y="381" text-anchor="middle" font-size="8" fill="#00695c">Results</text>
+
+  <line x1="805" y1="377" x2="695" y2="377" stroke="#e8710a" stroke-width="1.5" marker-end="url(#arrowOrange)"/>
+  <rect x="595" y="365" width="100" height="24" rx="4" fill="#fff3e0" stroke="#ffcc80"/>
+  <text x="645" y="381" text-anchor="middle" font-size="8" fill="#e8710a">Reason + respond</text>
+
+  <!-- ═══ STEP 5: AUDIO RESPONSE ═══ -->
+  <text x="30" y="415" font-size="9" font-weight="600" fill="#2d2a24">5. Audio response</text>
+
+  <rect x="595" y="423" width="100" height="24" rx="4" fill="#fff3e0" stroke="#ffcc80"/>
+  <text x="645" y="439" text-anchor="middle" font-size="8" fill="#e8710a">Native audio TTS</text>
+  <line x1="595" y1="435" x2="500" y2="435" stroke="#2e7d32" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+
+  <rect x="400" y="423" width="100" height="24" rx="4" fill="#e8f5e9" stroke="#a5d6a7"/>
+  <text x="450" y="439" text-anchor="middle" font-size="8" fill="#2e7d32">Audio event</text>
+  <line x1="400" y1="435" x2="320" y2="435" stroke="#4285F4" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+
+  <rect x="220" y="423" width="100" height="24" rx="4" fill="#f0f4f8" stroke="#d0d8e0"/>
+  <text x="270" y="439" text-anchor="middle" font-size="8" fill="#5a5549">WS send audio</text>
+  <line x1="220" y1="435" x2="140" y2="435" stroke="#5a5549" stroke-width="1.5" marker-end="url(#arrowDark)"/>
+
+  <rect x="40" y="423" width="100" height="24" rx="4" fill="#fce4ec" stroke="#f48fb1"/>
+  <text x="90" y="439" text-anchor="middle" font-size="8" fill="#c62828">Web Audio play</text>
+
+  <!-- ═══ STEP 6: TEXT TRANSCRIPT ═══ -->
+  <text x="30" y="478" font-size="9" font-weight="600" fill="#2d2a24">6. Transcript</text>
+
+  <rect x="595" y="486" width="100" height="24" rx="4" fill="#fff3e0" stroke="#ffcc80"/>
+  <text x="645" y="502" text-anchor="middle" font-size="8" fill="#e8710a">Text parts</text>
+  <line x1="595" y1="498" x2="500" y2="498" stroke="#2e7d32" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+
+  <rect x="400" y="486" width="100" height="24" rx="4" fill="#e8f5e9" stroke="#a5d6a7"/>
+  <text x="450" y="502" text-anchor="middle" font-size="8" fill="#2e7d32">Text event</text>
+  <line x1="400" y1="498" x2="320" y2="498" stroke="#4285F4" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+
+  <rect x="220" y="486" width="100" height="24" rx="4" fill="#f0f4f8" stroke="#d0d8e0"/>
+  <text x="270" y="502" text-anchor="middle" font-size="8" fill="#5a5549">WS send text</text>
+  <line x1="220" y1="498" x2="140" y2="498" stroke="#5a5549" stroke-width="1.5" marker-end="url(#arrowDark)"/>
+
+  <rect x="40" y="486" width="100" height="24" rx="4" fill="#e8eaf6" stroke="#9fa8da"/>
+  <text x="90" y="502" text-anchor="middle" font-size="8" fill="#283593">Render in UI</text>
+
+  <!-- Legend -->
+  <rect x="30" y="535" width="940" height="30" rx="4" fill="#f5f5f5" stroke="#e0e0e0"/>
+  <text x="50" y="554" font-size="8" font-weight="600" fill="#2d2a24">Data formats:</text>
+  <text x="120" y="554" font-size="8" fill="#5a5549">Audio = PCM 16-bit 16kHz (client) → base64 (server) → audio blob (Gemini)</text>
+  <text x="530" y="554" font-size="8" fill="#5a5549">Video = JPEG 768x768 @ 1fps → base64 → inline_data</text>
+  <text x="810" y="554" font-size="8" fill="#5a5549">Text = JSON WS frames</text>
+</svg>

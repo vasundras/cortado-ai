@@ -1,12 +1,10 @@
 # Cortado — Multimodal CX, Cut to the Essentials
 
-> **A workflow-free multimodal support agent that can hear, see, and read — powered by SOPs, Google Search, and the Gemini Live API. Swap the SOP, swap the entire domain.**
+> **Do CX agents really need complex workflow trees? Or can an SOP, Google Search, and the Gemini Live API replace all of it?**
 
-Traditional CX bots encode intelligence in workflow trees. Cortado takes the opposite approach: give the agent an SOP (Standard Operating Procedure) and let it find answers in real time — exactly like a trained human support rep would. No pre-embedded knowledge bases, no decision trees, no rigid routing.
+Cortado tests a hypothesis: give a multimodal agent an SOP (Standard Operating Procedure) instead of a workflow tree, let it search the web in real time, and see if it can handle customer support — voice, camera, images, and text — in a single session. No pre-embedded knowledge bases, no decision trees, no rigid routing.
 
 The same infrastructure powers **completely different domains** — just swap the SOP. We demonstrate this with two agents: a friendly Wahoo cycling buddy and a tactical Garmin watch specialist.
-
-Inspired by [Crescendo AI's award-winning approach](https://www.crescendo.ai/blog/crescendo-multimodal-2025) at Enterprise Connect 2026.
 
 Built for the [Gemini Live Agent Challenge](https://geminiliveagentchallenge.devpost.com/) by **Vasundra Srinivasan**, author of [*Data Engineering for Multimodal AI*](https://learning.oreilly.com/library/view/data-engineering-for/9781098190774/) (O'Reilly).
 
@@ -30,7 +28,29 @@ The agent's intelligence comes from the SOP + the model's ability to search and 
 
 ## Architecture
 
-![Cortado Architecture](docs/architecture.svg)
+### L0 — System Context
+
+![L0 Context Diagram](docs/l0-context.svg)
+
+Cortado sits between the customer and three external services. The customer connects over WebSocket from a mobile or desktop browser. Cortado routes all multimodal input (audio, camera, images, text) to the Gemini Live API for reasoning and native audio generation, uses Google Search for real-time knowledge retrieval, and sends branded ticket emails via Resend.
+
+### System Architecture
+
+![System Architecture](docs/architecture.svg)
+
+The server runs on Cloud Run as a FastAPI application with WebSocket support. Incoming connections are routed through the ADK Runner, which manages a `LiveRequestQueue` per session and streams bidirectionally with the Gemini Live API (`bidiGenerateContent`). The SOP Router selects the domain-specific system prompt — same tools (`google_search`, `create_support_ticket`, `vision`), different behavior.
+
+### LLD 1 — Real-Time Session Data Flow
+
+![Session Data Flow](docs/lld-session-flow.svg)
+
+Shows the complete bidirectional data path for a live session: client captures PCM audio (16-bit, 16kHz) and camera frames (JPEG 768x768 at 1fps), sends them over WebSocket, through FastAPI and the ADK Runner's `LiveRequestQueue`, to the Gemini Live API. The model reasons about the input, optionally invokes `google_search` for real-time knowledge, and streams back native audio (TTS) and text transcripts through the same path in reverse.
+
+### LLD 2 — Support Ticket Creation Data Flow
+
+![Ticket Data Flow](docs/lld-ticket-flow.svg)
+
+Shows the agent-initiated ticket creation flow: the Gemini model decides to create a ticket (via `create_support_ticket` tool call), the ADK dispatches to `tools.py`, which generates a prefixed ticket ID (`WAH-` or `GRM-`), stores it in the in-memory ticket store (accessible via `/api/tickets` and the `/tickets` dashboard), sends a branded HTML email via Resend, and returns the ticket ID to the model for voice confirmation to the customer.
 
 ### Why This Architecture
 
@@ -93,30 +113,6 @@ Cortado proves that SOP-driven architecture is domain-agnostic by supporting two
 - **Barge-in / interruption** — Stop button to interrupt the agent mid-response
 - **Vision honesty guardrails** — Agent admits when it can't clearly see something instead of guessing
 - **Automated deployment** — Single script deploys to Cloud Run (IaC bonus)
-
----
-
-## Demo Flow
-
-**Scenario 1 (Wahoo):** A cyclist's KICKR Core 2 won't connect to Zwift.
-
-1. **Voice:** "Hey, my KICKR Core 2 isn't showing up in Zwift"
-2. **Agent searches:** `site:support.wahoofitness.com KICKR cannot connect app`
-3. **Agent responds (voice):** "Can you check if there's a light on the trainer? Show me?"
-4. **Camera:** User points phone at the KICKR Core 2
-5. **Agent guides:** Identifies the trainer, walks through power cycling and re-pairing
-6. **Ticket:** Creates WAH-20260314-A1B2C3 and emails summary
-
-**Scenario 2 (Garmin):** Switch to Garmin, show a watch photo.
-
-1. **Switch domain** in dropdown → fresh session, new personality
-2. **Image:** User uploads photo of their Garmin watch
-3. **Agent identifies:** "Copy that — visual confirmed, that's a Forerunner 265. The AMOLED display is the giveaway."
-4. **Voice:** "My heart rate is reading way too high during runs"
-5. **Agent searches + guides:** Troubleshoots HR sensor with tactical precision
-6. **Ticket:** Creates GRM-20260314-D4E5F6 with visual record in email
-
-**No workflows were scripted. Same tools, different SOP.**
 
 ---
 
@@ -227,7 +223,7 @@ cortado/
 
 ## Technical Article
 
-See [ARTICLE.md](./ARTICLE.md) for a deep analysis of workflow-free multimodal CX architecture — examining Crescendo AI's approach and how Cortado implements the same principles.
+See [ARTICLE.md](./ARTICLE.md) for a deep analysis of workflow-free multimodal CX architecture and how Cortado implements SOP-driven support.
 
 ---
 
@@ -239,7 +235,7 @@ See [ARTICLE.md](./ARTICLE.md) for a deep analysis of workflow-free multimodal C
 
 ## Credits & Costs
 
-This project was built using **personal Gemini API credits** (self-funded). No hackathon-provided GCP credits were used. All API costs for development and demo were paid out of pocket.
+This project was built using **personal Gemini API credits** (self-funded). The hackathon GCP credit request deadline was missed, so no hackathon-provided credits were used. All API costs for development and demo were paid out of pocket.
 
 ---
 

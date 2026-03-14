@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" font-family="Inter, -apple-system, sans-serif">
+  <defs>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="108%">
+      <feDropShadow dx="0" dy="1" stdDeviation="3" flood-color="#2d2a24" flood-opacity="0.06"/>
+    </filter>
+    <marker id="arrowDark" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#5a5549"/>
+    </marker>
+    <marker id="arrowDarkLeft" markerWidth="8" markerHeight="6" refX="0" refY="3" orient="auto-start-reverse">
+      <path d="M0,0 L8,3 L0,6" fill="#5a5549"/>
+    </marker>
+  </defs>
+
+  <rect width="800" height="400" rx="8" fill="#faf9f5"/>
+  <text x="400" y="30" text-anchor="middle" font-size="16" font-weight="700" fill="#2d2a24">L0 — System Context</text>
+
+  <!-- Customer -->
+  <rect x="30" y="140" width="150" height="100" rx="8" fill="white" stroke="#d0d0d0" filter="url(#shadow)"/>
+  <text x="105" y="180" text-anchor="middle" font-size="12" font-weight="600" fill="#2d2a24">Customer</text>
+  <text x="105" y="198" text-anchor="middle" font-size="9" fill="#9b9488">Mobile / Desktop</text>
+  <text x="105" y="212" text-anchor="middle" font-size="9" fill="#9b9488">Voice · Camera · Text</text>
+
+  <!-- Cortado -->
+  <rect x="270" y="100" width="260" height="180" rx="12" fill="#4285F4" filter="url(#shadow)"/>
+  <text x="400" y="165" text-anchor="middle" font-size="18" font-weight="700" fill="white">Cortado</text>
+  <text x="400" y="188" text-anchor="middle" font-size="10" fill="#cce0ff">SOP-driven multimodal</text>
+  <text x="400" y="203" text-anchor="middle" font-size="10" fill="#cce0ff">CX agent</text>
+  <text x="400" y="225" text-anchor="middle" font-size="9" fill="#a0c4ff">FastAPI · ADK · Cloud Run</text>
+  <text x="400" y="260" text-anchor="middle" font-size="9" fill="#a0c4ff">google_search · create_ticket</text>
+
+  <!-- Gemini -->
+  <rect x="620" y="65" width="150" height="80" rx="8" fill="white" stroke="#d0d0d0" filter="url(#shadow)"/>
+  <text x="695" y="100" text-anchor="middle" font-size="11" font-weight="600" fill="#2d2a24">Gemini Live API</text>
+  <text x="695" y="116" text-anchor="middle" font-size="8" fill="#9b9488">2.5 Flash Native Audio</text>
+  <text x="695" y="130" text-anchor="middle" font-size="8" fill="#9b9488">Reasoning + TTS + Vision</text>
+
+  <!-- Google Search -->
+  <rect x="620" y="170" width="150" height="60" rx="8" fill="white" stroke="#d0d0d0" filter="url(#shadow)"/>
+  <text x="695" y="198" text-anchor="middle" font-size="11" font-weight="600" fill="#2d2a24">Google Search</text>
+  <text x="695" y="214" text-anchor="middle" font-size="8" fill="#9b9488">Real-time knowledge</text>
+
+  <!-- Resend -->
+  <rect x="620" y="255" width="150" height="60" rx="8" fill="white" stroke="#d0d0d0" filter="url(#shadow)"/>
+  <text x="695" y="283" text-anchor="middle" font-size="11" font-weight="600" fill="#2d2a24">Resend</text>
+  <text x="695" y="299" text-anchor="middle" font-size="8" fill="#9b9488">Ticket emails</text>
+
+  <!-- Arrows -->
+  <!-- Customer ↔ Cortado -->
+  <line x1="180" y1="180" x2="270" y2="180" stroke="#5a5549" stroke-width="1.5" marker-end="url(#arrowDark)"/>
+  <line x1="270" y1="200" x2="180" y2="200" stroke="#5a5549" stroke-width="1.5" marker-end="url(#arrowDark)"/>
+  <text x="225" y="173" text-anchor="middle" font-size="8" fill="#9b9488">Audio, video,</text>
+  <text x="225" y="183" text-anchor="middle" font-size="8" fill="#9b9488">images, text</text>
+  <text x="225" y="214" text-anchor="middle" font-size="8" fill="#9b9488">Audio, transcript</text>
+
+  <!-- Cortado → Gemini -->
+  <line x1="530" y1="155" x2="620" y2="110" stroke="#5a5549" stroke-width="1.5" marker-end="url(#arrowDark)"/>
+  <text x="585" y="120" text-anchor="middle" font-size="8" fill="#9b9488">bidiGenerateContent</text>
+
+  <!-- Cortado → Search -->
+  <line x1="530" y1="195" x2="620" y2="195" stroke="#5a5549" stroke-width="1.5" marker-end="url(#arrowDark)"/>
+  <text x="575" y="190" text-anchor="middle" font-size="8" fill="#9b9488">Tool call</text>
+
+  <!-- Cortado → Resend -->
+  <line x1="530" y1="240" x2="620" y2="275" stroke="#5a5549" stroke-width="1.5" marker-end="url(#arrowDark)"/>
+  <text x="585" y="265" text-anchor="middle" font-size="8" fill="#9b9488">HTTPS</text>
+
+  <!-- Customer label (email from Resend) -->
+  <path d="M695,315 L695,365 L105,365 L105,245" stroke="#5a5549" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrowDark)" fill="none"/>
+  <text x="400" y="378" text-anchor="middle" font-size="8" fill="#9b9488">Ticket email delivered to customer</text>
+</svg>

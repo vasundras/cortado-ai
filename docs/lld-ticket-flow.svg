@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 480" font-family="Inter, -apple-system, sans-serif">
+  <defs>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="108%">
+      <feDropShadow dx="0" dy="1" stdDeviation="3" flood-color="#2d2a24" flood-opacity="0.06"/>
+    </filter>
+    <marker id="arrowDark" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#5a5549"/>
+    </marker>
+    <marker id="arrowOrange" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#e8710a"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#2e7d32"/>
+    </marker>
+  </defs>
+
+  <rect width="900" height="480" rx="8" fill="#faf9f5"/>
+  <text x="450" y="30" text-anchor="middle" font-size="16" font-weight="700" fill="#2d2a24">LLD 2 — Support Ticket Creation Data Flow</text>
+  <text x="450" y="48" text-anchor="middle" font-size="10" fill="#9b9488">Agent-initiated tool call → ticket store → email delivery</text>
+
+  <!-- ═══ FLOW STEPS ═══ -->
+
+  <!-- Step 1: Gemini decides to create ticket -->
+  <rect x="30" y="80" width="200" height="70" rx="8" fill="white" stroke="#ffcc80" filter="url(#shadow)"/>
+  <text x="130" y="102" text-anchor="middle" font-size="10" font-weight="600" fill="#e8710a">1. Gemini decides</text>
+  <text x="130" y="118" text-anchor="middle" font-size="8" fill="#5a5549">Model reasons issue is resolved</text>
+  <text x="130" y="131" text-anchor="middle" font-size="8" fill="#5a5549">or needs escalation</text>
+
+  <line x1="230" y1="115" x2="280" y2="115" stroke="#5a5549" stroke-width="1.5" marker-end="url(#arrowDark)"/>
+
+  <!-- Step 2: Tool call -->
+  <rect x="280" y="80" width="200" height="70" rx="8" fill="white" stroke="#ffcc80" filter="url(#shadow)"/>
+  <text x="380" y="102" text-anchor="middle" font-size="10" font-weight="600" fill="#e8710a">2. Tool call</text>
+  <text x="380" y="118" text-anchor="middle" font-size="8" fill="#5a5549">create_support_ticket(</text>
+  <text x="380" y="131" text-anchor="middle" font-size="8" fill="#5a5549">  issue, steps, resolution, email)</text>
+
+  <line x1="480" y1="115" x2="530" y2="115" stroke="#5a5549" stroke-width="1.5" marker-end="url(#arrowDark)"/>
+
+  <!-- Step 3: ADK dispatches to tools.py -->
+  <rect x="530" y="80" width="200" height="70" rx="8" fill="white" stroke="#a5d6a7" filter="url(#shadow)"/>
+  <text x="630" y="102" text-anchor="middle" font-size="10" font-weight="600" fill="#2e7d32">3. ADK dispatch</text>
+  <text x="630" y="118" text-anchor="middle" font-size="8" fill="#5a5549">FunctionTool invokes</text>
+  <text x="630" y="131" text-anchor="middle" font-size="8" fill="#5a5549">tools.create_support_ticket()</text>
+
+  <!-- Arrow down from ADK -->
+  <line x1="630" y1="150" x2="630" y2="190" stroke="#2e7d32" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+
+  <!-- Step 4: Generate ticket -->
+  <rect x="30" y="195" width="260" height="100" rx="8" fill="white" stroke="#d0d0d0" filter="url(#shadow)"/>
+  <text x="160" y="218" text-anchor="middle" font-size="10" font-weight="600" fill="#2d2a24">4. Generate ticket</text>
+
+  <text x="48" y="240" font-size="9" font-weight="500" fill="#5a5549">ticket_id:</text>
+  <text x="110" y="240" font-size="9" fill="#9b9488">{PREFIX}-{date}-{hex}</text>
+
+  <text x="48" y="256" font-size="9" font-weight="500" fill="#5a5549">prefix:</text>
+  <text x="90" y="256" font-size="9" fill="#9b9488">WAH- (Wahoo) or GRM- (Garmin)</text>
+
+  <text x="48" y="272" font-size="9" font-weight="500" fill="#5a5549">fields:</text>
+  <text x="88" y="272" font-size="9" fill="#9b9488">issue, steps_taken, resolution, email</text>
+
+  <!-- Arrow from tools.py to ticket gen (going down then left) -->
+  <path d="M630,190 L630,245 L290,245" stroke="#2e7d32" stroke-width="1.5" fill="none" marker-end="url(#arrowGreen)"/>
+
+  <!-- Step 5: Store ticket -->
+  <rect x="350" y="195" width="200" height="100" rx="8" fill="white" stroke="#d0d0d0" filter="url(#shadow)"/>
+  <text x="450" y="218" text-anchor="middle" font-size="10" font-weight="600" fill="#2d2a24">5. Store ticket</text>
+  <text x="450" y="240" text-anchor="middle" font-size="8" fill="#5a5549">In-memory dict: tickets_store</text>
+  <text x="450" y="256" text-anchor="middle" font-size="8" fill="#5a5549">Keyed by ticket_id</text>
+  <text x="450" y="272" text-anchor="middle" font-size="8" fill="#5a5549">Accessible via /api/tickets</text>
+  <text x="450" y="285" text-anchor="middle" font-size="8" fill="#9b9488">and /tickets dashboard</text>
+
+  <!-- Arrow from generate to store -->
+  <line x1="290" y1="230" x2="350" y2="230" stroke="#5a5549" stroke-width="1.5" marker-end="url(#arrowDark)"/>
+
+  <!-- Step 6: Send email -->
+  <rect x="610" y="195" width="260" height="100" rx="8" fill="white" stroke="#d0d0d0" filter="url(#shadow)"/>
+  <text x="740" y="218" text-anchor="middle" font-size="10" font-weight="600" fill="#2d2a24">6. Send email (Resend)</text>
+  <text x="740" y="238" text-anchor="middle" font-size="8" fill="#5a5549">Build branded HTML template</text>
+  <text x="740" y="254" text-anchor="middle" font-size="8" fill="#5a5549">Include: ticket ID, issue summary,</text>
+  <text x="740" y="268" text-anchor="middle" font-size="8" fill="#5a5549">steps taken, resolution</text>
+  <text x="740" y="284" text-anchor="middle" font-size="8" fill="#9b9488">Garmin tickets include visual record</text>
+
+  <!-- Arrow from store to email -->
+  <line x1="550" y1="245" x2="610" y2="245" stroke="#5a5549" stroke-width="1.5" marker-end="url(#arrowDark)"/>
+
+  <!-- Step 7: Customer receives -->
+  <rect x="350" y="345" width="200" height="55" rx="8" fill="white" stroke="#d0d0d0" filter="url(#shadow)"/>
+  <text x="450" y="368" text-anchor="middle" font-size="10" font-weight="600" fill="#2d2a24">7. Customer inbox</text>
+  <text x="450" y="385" text-anchor="middle" font-size="8" fill="#5a5549">HTML email with ticket summary</text>
+
+  <!-- Arrow from Resend to customer -->
+  <path d="M740,295 L740,372 L550,372" stroke="#5a5549" stroke-width="1.5" fill="none" marker-end="url(#arrowDark)"/>
+  <text x="750" y="340" font-size="8" fill="#9b9488">HTTPS</text>
+
+  <!-- Step 8: Return to agent -->
+  <rect x="30" y="345" width="260" height="55" rx="8" fill="white" stroke="#ffcc80" filter="url(#shadow)"/>
+  <text x="160" y="368" text-anchor="middle" font-size="10" font-weight="600" fill="#e8710a">8. Tool response → Agent</text>
+  <text x="160" y="385" text-anchor="middle" font-size="8" fill="#5a5549">Returns ticket_id to model for voice confirmation</text>
+
+  <!-- Arrow from ticket gen back to agent -->
+  <path d="M160,295 L160,345" stroke="#e8710a" stroke-width="1.5" fill="none" marker-end="url(#arrowOrange)"/>
+
+  <!-- ═══ DATA SCHEMA ═══ -->
+  <rect x="30" y="420" width="840" height="45" rx="6" fill="#f5f5f5" stroke="#e0e0e0"/>
+  <text x="50" y="440" font-size="8" font-weight="600" fill="#2d2a24">Ticket schema:</text>
+  <text x="130" y="440" font-size="8" fill="#5a5549">{ ticket_id: str, domain: str, issue_summary: str, steps_taken: str, resolution: str, customer_email: str, created_at: ISO8601 }</text>
+  <text x="50" y="455" font-size="8" font-weight="600" fill="#2d2a24">Email via:</text>
+  <text x="100" y="455" font-size="8" fill="#5a5549">Resend API (RESEND_API_KEY env var) · From: support@cortado.ai · Branded HTML template</text>
+</svg>
