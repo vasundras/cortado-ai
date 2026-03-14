@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cortado — Support Tickets</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pink: #ff426f;
+            --teal: #8AE6DC;
+            --peach: #FCBE77;
+            --bg: #faf9f5;
+            --surface: #ffffff;
+            --border: #ede8df;
+            --text: #2d2a24;
+            --text-secondary: #5a5549;
+            --text-muted: #9b9488;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            padding: 24px;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--pink) 0%, #e63560 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px 20px;
+            flex: 1;
+        }
+
+        .stat-card .label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .stat-card .value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+
+        .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+        .empty-state h3 { font-size: 16px; margin-bottom: 4px; color: var(--text-secondary); }
+
+        .ticket {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 12px;
+            transition: box-shadow 0.2s;
+        }
+
+        .ticket:hover {
+            box-shadow: 0 4px 14px rgba(45, 42, 36, 0.08);
+        }
+
+        .ticket-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .ticket-id {
+            font-family: monospace;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--pink);
+        }
+
+        .ticket-time {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .ticket-summary {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .ticket-meta {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .badge.resolved { background: rgba(138, 230, 220, 0.2); color: #3dab9e; }
+        .badge.escalated { background: rgba(252, 190, 119, 0.25); color: #c48a2a; }
+        .badge.pending { background: rgba(255, 66, 110, 0.1); color: var(--pink); }
+
+        .badge.low { background: #f0f0ea; color: var(--text-muted); }
+        .badge.medium { background: rgba(252, 190, 119, 0.2); color: #b8842a; }
+        .badge.high { background: rgba(252, 140, 109, 0.2); color: #d05a3a; }
+        .badge.critical { background: rgba(255, 66, 110, 0.15); color: var(--pink); }
+
+        .ticket-details {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .ticket-details .field {
+            margin-bottom: 4px;
+        }
+
+        .ticket-details .field-label {
+            font-weight: 600;
+            color: var(--text-muted);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: var(--pink);
+            text-decoration: none;
+        }
+
+        .back-link:hover { text-decoration: underline; }
+
+        .refresh-btn {
+            font-size: 12px;
+            color: var(--pink);
+            background: none;
+            border: 1px solid var(--pink);
+            border-radius: 20px;
+            padding: 5px 14px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 500;
+        }
+
+        .refresh-btn:hover { background: rgba(255, 66, 110, 0.06); }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-link">&larr; Back to Cortado</a>
+
+    <div class="header">
+        <h1>Support Tickets</h1>
+        <button class="refresh-btn" onclick="loadTickets()">Refresh</button>
+    </div>
+    <p class="subtitle">Tickets created by Cortado during support conversations</p>
+
+    <div class="stats">
+        <div class="stat-card">
+            <div class="label">Total Tickets</div>
+            <div class="value" id="totalCount">-</div>
+        </div>
+        <div class="stat-card">
+            <div class="label">Resolved</div>
+            <div class="value" id="resolvedCount">-</div>
+        </div>
+        <div class="stat-card">
+            <div class="label">Escalated</div>
+            <div class="value" id="escalatedCount">-</div>
+        </div>
+        <div class="stat-card">
+            <div class="label">Pending</div>
+            <div class="value" id="pendingCount">-</div>
+        </div>
+    </div>
+
+    <div id="ticketsList"></div>
+
+    <script>
+        async function loadTickets() {
+            try {
+                const res = await fetch("/api/tickets");
+                const data = await res.json();
+                const tickets = data.tickets || [];
+
+                document.getElementById("totalCount").textContent = tickets.length;
+                document.getElementById("resolvedCount").textContent =
+                    tickets.filter(t => t.resolution_status === "resolved").length;
+                document.getElementById("escalatedCount").textContent =
+                    tickets.filter(t => t.resolution_status === "escalated").length;
+                document.getElementById("pendingCount").textContent =
+                    tickets.filter(t => t.resolution_status === "pending").length;
+
+                const container = document.getElementById("ticketsList");
+
+                if (tickets.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="icon">📋</div>
+                            <h3>No tickets yet</h3>
+                            <p>Tickets will appear here after Cortado completes support conversations.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = tickets
+                    .slice()
+                    .reverse()
+                    .map(t => `
+                        <div class="ticket">
+                            <div class="ticket-header">
+                                <span class="ticket-id">${t.ticket_id}</span>
+                                <span class="ticket-time">${new Date(t.created_at).toLocaleString()}</span>
+                            </div>
+                            <div class="ticket-summary">${escapeHtml(t.issue_summary)}</div>
+                            <div class="ticket-meta">
+                                <span class="badge ${t.resolution_status}">${t.resolution_status}</span>
+                                <span class="badge ${t.priority}">${t.priority} priority</span>
+                                <span style="font-size:12px;color:#9b9488;">${escapeHtml(t.product_model)}</span>
+                            </div>
+                            <div class="ticket-details">
+                                <div class="field">
+                                    <span class="field-label">Customer:</span>
+                                    ${escapeHtml(t.customer_email)}
+                                </div>
+                                <div class="field">
+                                    <span class="field-label">Resolution Notes:</span>
+                                    ${escapeHtml(t.resolution_notes)}
+                                </div>
+                            </div>
+                        </div>
+                    `)
+                    .join("");
+            } catch (err) {
+                console.error("Failed to load tickets:", err);
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement("div");
+            div.textContent = text || "";
+            return div.innerHTML;
+        }
+
+        loadTickets();
+        setInterval(loadTickets, 5000);
+    </script>
+</body>
+</html>

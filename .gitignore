@@ -1,0 +1,11 @@
+.env
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+.DS_Store
+image-samples-ignore-for-github/
+CLAUDE_CODE_PROMPT.md

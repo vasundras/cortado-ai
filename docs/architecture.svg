@@ -1,0 +1,192 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 720" font-family="Inter, -apple-system, sans-serif">
+  <defs>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="108%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#2d2a24" flood-opacity="0.08"/>
+    </filter>
+    <linearGradient id="pinkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff426f"/>
+      <stop offset="100%" style="stop-color:#e63560"/>
+    </linearGradient>
+    <linearGradient id="tealGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8AE6DC"/>
+      <stop offset="100%" style="stop-color:#5cc4b8"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4285F4"/>
+      <stop offset="100%" style="stop-color:#1a73e8"/>
+    </linearGradient>
+    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FCBE77"/>
+      <stop offset="100%" style="stop-color:#FC8C6D"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1100" height="720" rx="12" fill="#faf9f5"/>
+
+  <!-- Title -->
+  <text x="550" y="40" text-anchor="middle" font-size="22" font-weight="700" fill="#2d2a24">Cortado AI — Architecture</text>
+  <text x="550" y="62" text-anchor="middle" font-size="13" fill="#9b9488">Workflow-free Multimodal CX Agent | Gemini Live Agent Challenge</text>
+
+  <!-- ═══ CLIENT LAYER ═══ -->
+  <rect x="30" y="90" width="220" height="260" rx="12" fill="white" stroke="#ede8df" filter="url(#shadow)"/>
+  <rect x="30" y="90" width="220" height="36" rx="12" fill="url(#pinkGrad)"/>
+  <rect x="30" y="114" width="220" height="12" fill="url(#pinkGrad)"/>
+  <text x="140" y="114" text-anchor="middle" font-size="14" font-weight="600" fill="white">Client (Mobile/Desktop)</text>
+
+  <text x="50" y="155" font-size="12" font-weight="600" fill="#2d2a24">Multimodal Input</text>
+  <text x="58" y="175" font-size="11" fill="#5a5549">Voice (PCM 16-bit 16kHz)</text>
+  <text x="58" y="193" font-size="11" fill="#5a5549">Camera (768x768 JPEG 1fps)</text>
+  <text x="58" y="211" font-size="11" fill="#5a5549">Image Upload</text>
+  <text x="58" y="229" font-size="11" fill="#5a5549">Text Messages</text>
+
+  <line x1="50" y1="240" x2="230" y2="240" stroke="#ede8df"/>
+  <text x="50" y="260" font-size="12" font-weight="600" fill="#2d2a24">Output</text>
+  <text x="58" y="280" font-size="11" fill="#5a5549">Native Audio (TTS)</text>
+  <text x="58" y="298" font-size="11" fill="#5a5549">Text Transcription</text>
+  <text x="58" y="316" font-size="11" fill="#5a5549">Tool Call Indicators</text>
+  <text x="58" y="334" font-size="11" fill="#5a5549">Domain Switching UI</text>
+
+  <!-- WebSocket Arrow -->
+  <line x1="250" y1="220" x2="340" y2="220" stroke="#ff426f" stroke-width="2.5" marker-end="url(#arrowPink)"/>
+  <line x1="340" y1="230" x2="250" y2="230" stroke="#8AE6DC" stroke-width="2.5" marker-end="url(#arrowTeal)"/>
+  <defs>
+    <marker id="arrowPink" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#ff426f"/>
+    </marker>
+    <marker id="arrowTeal" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#8AE6DC"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#4285F4"/>
+    </marker>
+    <marker id="arrowOrange" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#FC8C6D"/>
+    </marker>
+  </defs>
+  <text x="295" y="210" text-anchor="middle" font-size="10" font-weight="500" fill="#ff426f">WSS://</text>
+  <text x="295" y="248" text-anchor="middle" font-size="9" fill="#9b9488">Bidirectional</text>
+
+  <!-- ═══ SERVER LAYER (Cloud Run) ═══ -->
+  <rect x="340" y="90" width="420" height="380" rx="12" fill="white" stroke="#ede8df" filter="url(#shadow)"/>
+  <rect x="340" y="90" width="420" height="36" rx="12" fill="url(#blueGrad)"/>
+  <rect x="340" y="114" width="420" height="12" fill="url(#blueGrad)"/>
+  <text x="550" y="114" text-anchor="middle" font-size="14" font-weight="600" fill="white">Google Cloud Run</text>
+
+  <!-- FastAPI -->
+  <rect x="360" y="140" width="380" height="50" rx="8" fill="#f0f4f8" stroke="#d0d8e0"/>
+  <text x="550" y="163" text-anchor="middle" font-size="13" font-weight="600" fill="#2d2a24">FastAPI Server</text>
+  <text x="550" y="180" text-anchor="middle" font-size="10" fill="#9b9488">WebSocket endpoint • /ws/{user_id}/{session_id}</text>
+
+  <!-- ADK Components -->
+  <rect x="360" y="200" width="180" height="80" rx="8" fill="#e8f5e9" stroke="#a5d6a7"/>
+  <text x="450" y="225" text-anchor="middle" font-size="12" font-weight="600" fill="#2d2a24">ADK Runner</text>
+  <text x="450" y="243" text-anchor="middle" font-size="10" fill="#5a5549">LiveRequestQueue</text>
+  <text x="450" y="258" text-anchor="middle" font-size="10" fill="#5a5549">Session Management</text>
+  <text x="450" y="273" text-anchor="middle" font-size="10" fill="#5a5549">RunConfig (BIDI mode)</text>
+
+  <!-- SOP Selector -->
+  <rect x="560" y="200" width="180" height="80" rx="8" fill="#fff3e0" stroke="#ffcc80"/>
+  <text x="650" y="222" text-anchor="middle" font-size="12" font-weight="600" fill="#2d2a24">SOP Router</text>
+  <text x="650" y="240" text-anchor="middle" font-size="10" fill="#5a5549">Domain Selection</text>
+  <text x="650" y="255" text-anchor="middle" font-size="10" fill="#e65100">Swap SOP = Swap Domain</text>
+  <text x="650" y="270" text-anchor="middle" font-size="10" fill="#5a5549">Same tools, different agent</text>
+
+  <!-- SOP Boxes -->
+  <rect x="360" y="295" width="180" height="70" rx="8" fill="#fce4ec" stroke="#f48fb1"/>
+  <text x="450" y="318" text-anchor="middle" font-size="11" font-weight="600" fill="#c62828">SOP: Wahoo KICKR</text>
+  <text x="450" y="335" text-anchor="middle" font-size="9" fill="#5a5549">Friendly cycle buddy</text>
+  <text x="450" y="350" text-anchor="middle" font-size="9" fill="#5a5549">Female voice • Casual tone</text>
+
+  <rect x="560" y="295" width="180" height="70" rx="8" fill="#e8eaf6" stroke="#9fa8da"/>
+  <text x="650" y="318" text-anchor="middle" font-size="11" font-weight="600" fill="#283593">SOP: Garmin Watches</text>
+  <text x="650" y="335" text-anchor="middle" font-size="9" fill="#5a5549">Marine tech sergeant</text>
+  <text x="650" y="350" text-anchor="middle" font-size="9" fill="#5a5549">Male voice • Tactical tone</text>
+
+  <!-- Tools -->
+  <rect x="360" y="380" width="120" height="45" rx="8" fill="#e0f2f1" stroke="#80cbc4"/>
+  <text x="420" y="400" text-anchor="middle" font-size="11" font-weight="600" fill="#00695c">google_search</text>
+  <text x="420" y="416" text-anchor="middle" font-size="9" fill="#5a5549">Real-time knowledge</text>
+
+  <rect x="490" y="380" width="120" height="45" rx="8" fill="#e0f2f1" stroke="#80cbc4"/>
+  <text x="550" y="400" text-anchor="middle" font-size="11" font-weight="600" fill="#00695c">create_ticket</text>
+  <text x="550" y="416" text-anchor="middle" font-size="9" fill="#5a5549">Log + email summary</text>
+
+  <rect x="620" y="380" width="120" height="45" rx="8" fill="#e0f2f1" stroke="#80cbc4"/>
+  <text x="680" y="400" text-anchor="middle" font-size="11" font-weight="600" fill="#00695c">vision (camera)</text>
+  <text x="680" y="416" text-anchor="middle" font-size="9" fill="#5a5549">768x768 @ 1fps</text>
+
+  <!-- Arrow to Tools label -->
+  <text x="550" y="445" text-anchor="middle" font-size="10" font-weight="500" fill="#9b9488">Same tools for ALL domains</text>
+
+  <!-- ═══ EXTERNAL SERVICES ═══ -->
+
+  <!-- Gemini -->
+  <rect x="810" y="90" width="260" height="130" rx="12" fill="white" stroke="#ede8df" filter="url(#shadow)"/>
+  <rect x="810" y="90" width="260" height="36" rx="12" fill="url(#orangeGrad)"/>
+  <rect x="810" y="114" width="260" height="12" fill="url(#orangeGrad)"/>
+  <text x="940" y="114" text-anchor="middle" font-size="14" font-weight="600" fill="white">Gemini Live API</text>
+  <text x="940" y="148" text-anchor="middle" font-size="11" fill="#2d2a24">gemini-2.5-flash-native-audio</text>
+  <text x="940" y="166" text-anchor="middle" font-size="10" fill="#5a5549">bidiGenerateContent streaming</text>
+  <text x="940" y="184" text-anchor="middle" font-size="10" fill="#5a5549">Native audio output (TTS)</text>
+  <text x="940" y="202" text-anchor="middle" font-size="10" fill="#5a5549">Vision input (camera/images)</text>
+
+  <!-- Arrow Server to Gemini -->
+  <line x1="760" y1="165" x2="810" y2="165" stroke="#FC8C6D" stroke-width="2" marker-end="url(#arrowOrange)"/>
+  <text x="785" y="158" text-anchor="middle" font-size="9" fill="#9b9488">ADK</text>
+
+  <!-- Google Search -->
+  <rect x="810" y="240" width="260" height="90" rx="12" fill="white" stroke="#ede8df" filter="url(#shadow)"/>
+  <rect x="810" y="240" width="260" height="36" rx="12" fill="url(#tealGrad)"/>
+  <rect x="810" y="264" width="260" height="12" fill="url(#tealGrad)"/>
+  <text x="940" y="264" text-anchor="middle" font-size="14" font-weight="600" fill="white">Google Search</text>
+  <text x="940" y="298" text-anchor="middle" font-size="10" fill="#5a5549">Official support sites</text>
+  <text x="940" y="316" text-anchor="middle" font-size="10" fill="#5a5549">YouTube tutorials • Forums • Reviews</text>
+
+  <!-- Arrow Server to Search -->
+  <line x1="760" y1="285" x2="810" y2="285" stroke="#5cc4b8" stroke-width="2" marker-end="url(#arrowTeal)"/>
+  <text x="785" y="278" text-anchor="middle" font-size="9" fill="#9b9488">Tool</text>
+
+  <!-- Resend -->
+  <rect x="810" y="350" width="260" height="80" rx="12" fill="white" stroke="#ede8df" filter="url(#shadow)"/>
+  <rect x="810" y="350" width="260" height="36" rx="12" fill="#5a5549"/>
+  <rect x="810" y="374" width="260" height="12" fill="#5a5549"/>
+  <text x="940" y="374" text-anchor="middle" font-size="14" font-weight="600" fill="white">Resend (Email)</text>
+  <text x="940" y="405" text-anchor="middle" font-size="10" fill="#5a5549">Branded ticket summary emails</text>
+  <text x="940" y="420" text-anchor="middle" font-size="10" fill="#5a5549">Visual record for Garmin tickets</text>
+
+  <!-- Arrow Server to Resend -->
+  <line x1="760" y1="395" x2="810" y2="395" stroke="#5a5549" stroke-width="2"/>
+
+  <!-- ═══ KEY INNOVATION CALLOUT ═══ -->
+  <rect x="30" y="490" width="1040" height="110" rx="12" fill="#fff8e1" stroke="#ffe082" filter="url(#shadow)"/>
+  <text x="550" y="520" text-anchor="middle" font-size="16" font-weight="700" fill="#f57f17">Key Innovation: SOP-Driven Architecture</text>
+  <text x="550" y="545" text-anchor="middle" font-size="12" fill="#5a5549">The SOP (Standard Operating Procedure) is the ONLY designed artifact. No workflow trees, no pre-embedded knowledge bases.</text>
+  <text x="550" y="565" text-anchor="middle" font-size="12" fill="#5a5549">The agent reasons about issues + searches the web in real time — exactly like a trained human support rep would.</text>
+  <text x="550" y="585" text-anchor="middle" font-size="12" font-weight="600" fill="#e65100">Swap the SOP → Swap the entire domain. Same tools, same infra, completely different agent personality and behavior.</text>
+
+  <!-- ═══ TECH STACK BAR ═══ -->
+  <rect x="30" y="620" width="1040" height="80" rx="12" fill="white" stroke="#ede8df" filter="url(#shadow)"/>
+  <text x="550" y="648" text-anchor="middle" font-size="13" font-weight="600" fill="#2d2a24">Technology Stack</text>
+
+  <rect x="60" y="660" width="130" height="26" rx="6" fill="#e8f5e9"/>
+  <text x="125" y="678" text-anchor="middle" font-size="10" font-weight="500" fill="#2e7d32">Google ADK 1.27</text>
+
+  <rect x="200" y="660" width="130" height="26" rx="6" fill="#e3f2fd"/>
+  <text x="265" y="678" text-anchor="middle" font-size="10" font-weight="500" fill="#1565c0">Cloud Run</text>
+
+  <rect x="340" y="660" width="130" height="26" rx="6" fill="#fff3e0"/>
+  <text x="405" y="678" text-anchor="middle" font-size="10" font-weight="500" fill="#e65100">Gemini 2.5 Flash</text>
+
+  <rect x="480" y="660" width="130" height="26" rx="6" fill="#fce4ec"/>
+  <text x="545" y="678" text-anchor="middle" font-size="10" font-weight="500" fill="#c62828">FastAPI + WS</text>
+
+  <rect x="620" y="660" width="130" height="26" rx="6" fill="#e0f2f1"/>
+  <text x="685" y="678" text-anchor="middle" font-size="10" font-weight="500" fill="#00695c">Google Search</text>
+
+  <rect x="760" y="660" width="130" height="26" rx="6" fill="#f3e5f5"/>
+  <text x="825" y="678" text-anchor="middle" font-size="10" font-weight="500" fill="#6a1b9a">Web Audio API</text>
+
+  <rect x="900" y="660" width="130" height="26" rx="6" fill="#e8eaf6"/>
+  <text x="965" y="678" text-anchor="middle" font-size="10" font-weight="500" fill="#283593">Resend Email</text>
+</svg>
