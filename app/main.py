@@ -229,7 +229,16 @@ async def websocket_endpoint(
         """Receive messages from WebSocket and push to LiveRequestQueue."""
         logger.debug("upstream_task started")
         while True:
-            message = await websocket.receive()
+            try:
+                message = await websocket.receive()
+            except RuntimeError:
+                # Client already disconnected
+                logger.debug("Client disconnected (upstream)")
+                break
+
+            if message.get("type") == "websocket.disconnect":
+                logger.debug("Client sent disconnect")
+                break
 
             # Binary frames = raw PCM audio from microphone
             if "bytes" in message:

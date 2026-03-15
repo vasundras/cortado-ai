@@ -17,7 +17,6 @@ import os
 
 from google.adk.agents import Agent
 from google.adk.tools import google_search
-from google.genai import types
 
 from app.cortado_agent.tools import create_support_ticket
 
@@ -267,17 +266,6 @@ SOP_REGISTRY = {
     },
 }
 
-# Encourage tool use — AUTO with explicit allowed functions tells the model
-# these tools exist and should be considered on every turn.
-_tool_config = types.GenerateContentConfig(
-    tool_config=types.ToolConfig(
-        function_calling_config=types.FunctionCallingConfig(
-            mode="AUTO",
-            allowed_function_names=["google_search", "create_support_ticket"],
-        )
-    )
-)
-
 # Default agent (Wahoo) for backwards compatibility
 root_agent = Agent(
     name="cortado_wahoo",
@@ -285,7 +273,6 @@ root_agent = Agent(
     description=SOP_REGISTRY["wahoo"]["description"],
     instruction=CUSTOMER_SUPPORT_SOP,
     tools=[google_search, create_support_ticket],
-    generate_content_config=_tool_config,
 )
 
 
@@ -298,5 +285,4 @@ def create_agent(domain: str = "wahoo") -> Agent:
         description=config["description"],
         instruction=config["sop"],
         tools=[google_search, create_support_ticket],
-        generate_content_config=_tool_config,
     )
