@@ -276,24 +276,40 @@ async def websocket_endpoint(
                     )
 
     async def downstream_task() -> None:
-        """Stream ADK events to WebSocket client."""
-        # Wait for domain selection before starting the live stream
+        """Stream ADK events to WebSocket client.
+
+        Wraps run_live() in a retry loop so that when the Gemini bidi
+        stream ends (e.g. after an interrupt or idle timeout), we restart
+        it with the same session — preserving conversation history.
+        """
         await domain_ready.wait()
         logger.debug(f"downstream_task started with domain={domain}")
-        async for event in runner.run_live(
-            user_id=user_id,
-            session_id=session_id,
-            live_request_queue=live_request_queue,
-            run_config=run_config,
-        ):
-            # Forward the raw ADK event as JSON — the client handles parsing
-            event_json = event.model_dump_json(
-                exclude_none=True, by_alias=True
-            )
-            logger.debug(f"[SERVER] Event: {event_json[:200]}")
-            await websocket.send_text(event_json)
 
-        logger.debug("run_live() generator completed")
+        while True:
+            try:
+                async for event in runner.run_live(
+                    user_id=user_id,
+                    session_id=session_id,
+                    live_request_queue=live_request_queue,
+                    run_config=run_config,
+                ):
+                    event_json = event.model_dump_json(
+                        exclude_none=True, by_alias=True
+                    )
+                    logger.debug(f"[SERVER] Event: {event_json[:200]}")
+                    await websocket.send_text(event_json)
+
+                # run_live() ended normally (interrupt, idle timeout, etc.)
+                # Restart it so the next user message is handled.
+                logger.info(
+                    "run_live() stream ended — restarting with same session "
+                    f"(user={user_id}, session={session_id})"
+                )
+            except Exception as e:
+                # If the WebSocket is closed, the upstream task will also
+                # fail and asyncio.gather will handle cleanup.
+                logger.error(f"run_live() error: {e}", exc_info=True)
+                raise
 
     # Run both tasks concurrently
     try:
