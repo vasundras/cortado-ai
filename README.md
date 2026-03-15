@@ -159,6 +159,83 @@ This script:
 
 ---
 
+## Reproducible Testing
+
+### Deploy Your Own Instance
+
+Deploy Cortado to your own GCP project — uses your own API key and Cloud Run credits.
+
+**Prerequisites:**
+- GCP project with billing enabled
+- `gcloud` CLI installed and authenticated (`gcloud auth login`)
+- Gemini API key ([get one here](https://aistudio.google.com/apikey))
+
+```bash
+git clone https://github.com/cortado-ai/cortado.git
+cd cortado
+chmod +x scripts/deploy.sh
+./scripts/deploy.sh YOUR_PROJECT_ID YOUR_GEMINI_API_KEY
+```
+
+The script enables APIs, builds the container via Cloud Build, deploys to Cloud Run, and prints your HTTPS URL. Open it on a phone or desktop browser with mic access.
+
+### Test 1: Voice Conversation (Wahoo)
+
+1. Open the app → domain defaults to **Wahoo KICKR**
+2. Click **Start** → grant microphone permission
+3. Say: *"Hey, my KICKR Core 2 won't connect to Zwift over Bluetooth"*
+4. Verify: agent responds via voice, searches the web for troubleshooting steps (not hallucinated), and asks clarifying questions
+5. Say: *"Never mind, what's the difference between the KICKR and KICKR Core?"*
+6. Verify: agent searches and provides accurate, current specs — not memorized training data
+
+### Test 2: Domain Switching (Garmin)
+
+1. Select **Garmin Watches** from the domain dropdown
+2. Click **Start** → new session begins
+3. Say: *"My Fenix 8 keeps losing GPS signal on runs"*
+4. Verify: agent responds with a tactical tone (different personality from Wahoo), searches Garmin support sites
+5. Verify: the agent uses `google_search` to ground its answers — check server logs or ask the agent where it found the information
+
+### Test 3: Camera / Image Input
+
+1. Start a session on either domain
+2. Click the **camera icon** → point at a cycling trainer or watch (or any product image)
+3. Verify: agent describes what it sees and attempts to identify the product
+4. Alternatively, upload an image using the image upload button
+5. Verify: agent references the visual input in its response
+
+### Test 4: Support Ticket Creation
+
+1. During a conversation, say: *"Can you create a support ticket for this issue? My email is test@example.com"*
+2. Verify: agent calls `create_support_ticket` and confirms the ticket ID (e.g., `WAH-XXXXXXXX` or `GRM-XXXXXXXX`)
+3. Navigate to `/tickets` to see the ticket in the dashboard
+4. Call `/api/tickets` to verify the JSON API returns the ticket
+
+### Test 5: Interruption (Barge-In)
+
+1. Start a conversation and let the agent begin a long response
+2. Click the **Stop** button mid-response
+3. Say something new: *"Actually, I have a different question"*
+4. Verify: agent picks up the new question without losing conversation history
+
+### Test 6: Text Input
+
+1. Instead of speaking, type a message in the text input field
+2. Verify: agent responds via voice to text input
+3. Verify: mixed-mode works — type a message, then switch to voice mid-conversation
+
+### Health Check
+
+```bash
+curl YOUR_SERVICE_URL/health
+# Expected: {"status":"healthy","agent":"cortado","version":"1.1.0"}
+
+curl YOUR_SERVICE_URL/api/domains
+# Expected: {"domains":[{"key":"wahoo","label":"Wahoo KICKR"},{"key":"garmin","label":"Garmin Watches"}]}
+```
+
+---
+
 ## Project Structure
 
 ```
